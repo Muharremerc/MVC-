@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DressModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="DressCategories" Relationship="Self.FK_DressCategory_Category" FromRole="Category" ToRole="DressCategory" />
+  </EntityType>
+  <EntityType Name="DressCategory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryId" Type="Int32" />
+    <Property Name="DressId" Type="Int32" />
+    <NavigationProperty Name="Category" Relationship="Self.FK_DressCategory_Category" FromRole="DressCategory" ToRole="Category" />
+    <NavigationProperty Name="DressDefinition" Relationship="Self.FK_DressCategory_DressDefinition" FromRole="DressCategory" ToRole="DressDefinition" />
+  </EntityType>
+  <EntityType Name="DressDefinition">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="DressCategories" Relationship="Self.FK_DressCategory_DressDefinition" FromRole="DressDefinition" ToRole="DressCategory" />
+    <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="DressImages" Relationship="DressModel.FK_DressImage_DressDefinition" FromRole="DressDefinition" ToRole="DressImage" />
+  </EntityType>
+  <Association Name="FK_DressCategory_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="DressCategory" Type="Self.DressCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DressCategory">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DressCategory_DressDefinition">
+    <End Role="DressDefinition" Type="Self.DressDefinition" Multiplicity="0..1" />
+    <End Role="DressCategory" Type="Self.DressCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DressDefinition">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DressCategory">
+        <PropertyRef Name="DressId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DressEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="DressCategories" EntityType="Self.DressCategory" />
+    <EntitySet Name="DressDefinitions" EntityType="Self.DressDefinition" />
+    <AssociationSet Name="FK_DressCategory_Category" Association="Self.FK_DressCategory_Category">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="DressCategory" EntitySet="DressCategories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DressCategory_DressDefinition" Association="Self.FK_DressCategory_DressDefinition">
+      <End Role="DressDefinition" EntitySet="DressDefinitions" />
+      <End Role="DressCategory" EntitySet="DressCategories" />
+    </AssociationSet>
+    <EntitySet Name="DressImages" EntityType="DressModel.DressImage" />
+    <AssociationSet Name="FK_DressImage_DressDefinition" Association="DressModel.FK_DressImage_DressDefinition">
+      <End Role="DressDefinition" EntitySet="DressDefinitions" />
+      <End Role="DressImage" EntitySet="DressImages" />
+    </AssociationSet>
+    <EntitySet Name="Images" EntityType="DressModel.Image" />
+    <AssociationSet Name="FK_DressImage_Image" Association="DressModel.FK_DressImage_Image">
+      <End Role="Image" EntitySet="Images" />
+      <End Role="DressImage" EntitySet="DressImages" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="DressImage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ImageId" Type="Int32" />
+    <Property Name="DressId" Type="Int32" />
+    <NavigationProperty Name="DressDefinition" Relationship="DressModel.FK_DressImage_DressDefinition" FromRole="DressImage" ToRole="DressDefinition" />
+    <NavigationProperty Name="Image" Relationship="DressModel.FK_DressImage_Image" FromRole="DressImage" ToRole="Image" />
+  </EntityType>
+  <Association Name="FK_DressImage_DressDefinition">
+    <End Type="DressModel.DressDefinition" Role="DressDefinition" Multiplicity="0..1" />
+    <End Type="DressModel.DressImage" Role="DressImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DressDefinition">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DressImage">
+        <PropertyRef Name="DressId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Image">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="imageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="imageAlt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="imageData" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="ContentType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="DressImages" Relationship="DressModel.FK_DressImage_Image" FromRole="Image" ToRole="DressImage" />
+  </EntityType>
+  <Association Name="FK_DressImage_Image">
+    <End Type="DressModel.Image" Role="Image" Multiplicity="0..1" />
+    <End Type="DressModel.DressImage" Role="DressImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Image">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DressImage">
+        <PropertyRef Name="ImageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

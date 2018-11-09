@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="83b90b408fdd40a1b7bac83de52ffcf7" Name="Diagram1">
+        <EntityTypeShape EntityType="DressModel.Category" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DressModel.DressCategory" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DressModel.DressDefinition" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
+        <AssociationConnector Association="DressModel.FK_DressCategory_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="DressModel.FK_DressCategory_DressDefinition" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DressModel.DressImage" Width="1.5" PointX="3" PointY="4.125" />
+        <AssociationConnector Association="DressModel.FK_DressImage_DressDefinition" />
+        <EntityTypeShape EntityType="DressModel.Image" Width="1.5" PointX="5.375" PointY="0.875" />
+        <AssociationConnector Association="DressModel.FK_DressImage_Image" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
